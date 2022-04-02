@@ -16,11 +16,33 @@ import Orders from "./containers/Orders";
 import Products from "./containers/Products";
 import Signin from "./containers/Signin";
 import Signup from "./containers/Signup";
+import { io } from "socket.io-client";
+import { domain } from "./urlConfig";
+
+let socket;
+
+export const initiateSocketConnection = () => {
+  socket = io(domain);
+  console.log(`Connecting socket...`);
+};
+export const subscribeToChat = (cb) => {
+  socket.emit("my message", "Hello there from React Adminnnnnn.");
+  socket.on("notify admin", (msg) => {
+    console.log({
+      onEvent: "notify admin",
+      data: msg,
+    });
+  });
+};
 
 function App() {
   const auth = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
+  useEffect(() => {
+    initiateSocketConnection();
+    subscribeToChat();
+  }, []);
   useEffect(() => {
     if (!auth.authenticate) {
       dispatch(isUserLoggedIn());
