@@ -18,21 +18,12 @@ import Signin from "./containers/Signin";
 import Signup from "./containers/Signup";
 import { io } from "socket.io-client";
 import { domain } from "./urlConfig";
+import { notifyConstants } from "./actions/constants";
 
 let socket;
 
 export const initiateSocketConnection = () => {
   socket = io(domain);
-  console.log(`Connecting socket...`);
-};
-export const subscribeToChat = (cb) => {
-  socket.emit("my message", "Hello there from React Adminnnnnn.");
-  socket.on("notify admin", (msg) => {
-    console.log({
-      onEvent: "notify admin",
-      data: msg,
-    });
-  });
 };
 
 function App() {
@@ -41,13 +32,24 @@ function App() {
   const dispatch = useDispatch();
   useEffect(() => {
     initiateSocketConnection();
-    subscribeToChat();
   }, []);
   useEffect(() => {
     if (!auth.authenticate) {
       dispatch(isUserLoggedIn());
     } else {
       dispatch(getInitialData());
+    }
+  }, [auth.authenticate, dispatch]);
+
+  useEffect(() => {
+    if (auth.authenticate) {
+      console.log(socket);
+      socket.on("notify admin", (notify) => {
+        dispatch({
+          type: notifyConstants.PUSH_NOTIFY,
+          payload: { notify },
+        });
+      });
     }
   }, [auth.authenticate, dispatch]);
   return (

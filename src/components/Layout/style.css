@@ -59,3 +59,19 @@
   color: var(--primary);
   border-radius: 8px 0 0 8px;
 }
+
+.layout__totalNotify {
+  display: flex;
+  justify-content: space-between;
+  align-self: center;
+}
+.layout__total {
+  background-color: white;
+  border-radius: 999px;
+  color: #999;
+  display: flex;
+  height: 25px;
+  padding: 6px 8px;
+  justify-content: center;
+  align-items: center;
+}

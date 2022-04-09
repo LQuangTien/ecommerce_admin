@@ -7,6 +7,7 @@ import pageReducer from "./page.reducers";
 import orderReducer from "./order.reducers";
 import statisticReducer from "./statistc.reducers";
 import initReducer from "./init.reducers";
+import notifyReducer from "./notify.reducers";
 const rootReducer = combineReducers({
   auth: authReducer,
   user: userReducer,
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   orders: orderReducer,
   statistic: statisticReducer,
   init: initReducer,
+  notify: notifyReducer,
 });
 
 export default rootReducer;
