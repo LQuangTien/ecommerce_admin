@@ -30,7 +30,7 @@ const notifyReducer = (state = initState, action) => {
     case notifyConstants.PUSH_NOTIFY:
       state = {
         ...state,
-        notifies: [...state.notifies, action.payload.notify],
+        notifies: [action.payload.notify, ...state.notifies],
       };
       break;
     default:

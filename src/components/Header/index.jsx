@@ -6,6 +6,7 @@ import { signout } from "../../actions/auth.actions";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import "./style.css";
 import { clientDomain } from "../../urlConfig";
+import toDate from "../../helpers/toDate";
 
 function Header() {
   const history = useHistory();
@@ -50,9 +51,8 @@ function Header() {
                         class="notify__link"
                         href={`${clientDomain}product/${noti.productId}?commentId=${noti.commentId}`}
                       >
-                        {new Date(noti.createdAt).toLocaleString("vi-VN")} -{" "}
-                        {noti.userName} commented on this product{" "}
-                        {noti.productName}
+                        {toDate(new Date(noti.createdAt))} - {noti.userName}{" "}
+                        commented on this product {noti.productName}
                       </a>
                     </li>
                   ))}
