@@ -7,6 +7,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import "./style.css";
 import { clientDomain } from "../../urlConfig";
 import toDate from "../../helpers/toDate";
+import { readNotify } from "../../actions";
 
 function Header() {
   const history = useHistory();
@@ -16,6 +17,10 @@ function Header() {
   const handleSignout = () => {
     dispatch(signout());
     history.push("/signin");
+  };
+
+  const onNotifyClick = (notifyId) => {
+    dispatch(readNotify(notifyId));
   };
   const wasLoggedIn = () => {
     return (
@@ -44,7 +49,11 @@ function Header() {
               <ul class="notify__list">
                 {notifyState.notifies &&
                   notifyState.notifies.map((noti) => (
-                    <li class="notify__item" key={noti.commentId}>
+                    <li
+                      class="notify__item"
+                      key={noti.commentId}
+                      onClick={() => onNotifyClick(noti._id)}
+                    >
                       <a
                         target="_blank"
                         rel="noreferrer"

@@ -33,6 +33,12 @@ const notifyReducer = (state = initState, action) => {
         notifies: [action.payload.notify, ...state.notifies],
       };
       break;
+    case notifyConstants.READ_NOTIFY:
+      state = {
+        ...state,
+        notifies: state.notifies.filter((n) => n._id !== action.payload.id),
+      };
+      break;
     default:
       state = { ...state };
   }

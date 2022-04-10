@@ -16,7 +16,7 @@
 }
 
 .notify__board {
-  /* display: none; */
+  display: none;
   position: absolute;
   border-radius: 2px;
   background-color: white;
