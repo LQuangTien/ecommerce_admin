@@ -6,10 +6,11 @@ export const updateOrder = (updatedProcess) => {
   return async (dispatch) => {
     dispatch({ type: orderConstants.UPDATE_ORDER_REQUEST });
     const res = await axios.put("order/update", updatedProcess);
+    console.log(res);
     if (res.status === 201) {
       dispatch({
         type: orderConstants.UPDATE_ORDER_SUCCESS,
-        payload: { order: res.data.order },
+        payload: { order: res.data.order[0] },
       });
       dispatch(getInitialData());
     } else {

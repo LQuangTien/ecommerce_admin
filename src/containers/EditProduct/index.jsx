@@ -249,7 +249,6 @@ function EditProduct(props) {
                 Toggle replace
               </Button>
             )}
-            {product && product.productPictures && product.productPictures[0]}
             <div className="product__images">
               <div className="product__images-container">
                 {Object.keys(product).length > 0 &&
