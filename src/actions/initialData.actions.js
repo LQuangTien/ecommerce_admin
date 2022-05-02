@@ -1,6 +1,7 @@
 import {
   categoryConstants,
   initialDataConstants,
+  labelConstants,
   notifyConstants,
   orderConstants,
   productConstants,

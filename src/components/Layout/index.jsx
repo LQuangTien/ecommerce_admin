@@ -7,6 +7,7 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import CategoryIcon from "@mui/icons-material/Category";
 import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
 import ReceiptIcon from "@mui/icons-material/Receipt";
+import LabelIcon from "@mui/icons-material/Label";
 import "./style.css";
 function Layout(props) {
   const auth = useSelector((state) => state.auth);
@@ -37,6 +38,12 @@ function Layout(props) {
               <NavLink to="/orders">
                 <ReceiptIcon />
                 Orders
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/labels">
+                <LabelIcon />
+                Labels
               </NavLink>
             </li>
           </ul>

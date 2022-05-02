@@ -19,6 +19,9 @@ import Signup from "./containers/Signup";
 import { io } from "socket.io-client";
 import { domain } from "./urlConfig";
 import { notifyConstants } from "./actions/constants";
+import Labels from "./containers/Labels";
+import EditLabel from "./containers/EditLabel";
+import AddLabel from "./containers/AddLabel";
 
 let socket;
 
@@ -75,6 +78,13 @@ function App() {
             path="/category/edit/:id"
             component={EditCategory}
           />
+
+          <PrivateRoute exact path="/labels" component={Labels} />
+          {auth && auth.user.role === "admin" && (
+            <PrivateRoute exact path="/label/add" component={AddLabel} />
+          )}
+
+          <PrivateRoute exact path="/label/edit/:id" component={EditLabel} />
 
           <PrivateRoute exact path="/product/:id" component={EditProduct} />
 
