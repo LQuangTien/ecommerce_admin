@@ -58,9 +58,11 @@ function EditProduct(props) {
       Object.keys(product).length > 0 &&
       labels.length > 0
     ) {
-      const labelList = product.labels.map((name) => {
-        return labels.find((l) => l.name === name);
-      });
+      const labelList = product.labels
+        ? product.labels.map((name) => {
+            return labels.find((l) => l.name === name);
+          })
+        : [];
       setProductLabels(labelList);
       const cate = categories.find((cate) => cate.name === product.category);
       setCategory(cate);

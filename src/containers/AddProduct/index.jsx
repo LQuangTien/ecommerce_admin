@@ -9,11 +9,15 @@ import {
   Row,
   Spinner,
 } from "react-bootstrap";
-import { useFieldArray, useForm } from "react-hook-form";
+import { useFieldArray, useForm, Controller } from "react-hook-form";
 import ImageUploading from "react-images-uploading";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { addProduct } from "../../actions/product.actions";
+import TextField from "@material-ui/core/TextField";
+import Autocomplete from "@material-ui/lab/Autocomplete";
+import { withStyles } from "@material-ui/core/styles";
+import { Chip } from "@material-ui/core";
 import "./style.css";
 
 function AddProduct(props) {
@@ -25,6 +29,8 @@ function AddProduct(props) {
   const { categories } = useSelector((state) => state.categories);
   const { isAdding } = useSelector((state) => state.products);
   const [cateError, setCateError] = useState("");
+  const { labels } = useSelector((state) => state.labels);
+  const [productLabels, setProductLabels] = useState([]);
 
   const onChange = (imageList, addUpdateIndex) => {
     setImages(imageList);
@@ -48,7 +54,9 @@ function AddProduct(props) {
     }
     const form = new FormData();
     Object.keys(data).forEach((key, index) => {
-      if (!["category", "categoryInfo", "productPictures"].includes(key)) {
+      if (
+        !["category", "categoryInfo", "productPictures", "labels"].includes(key)
+      ) {
         form.append(key, data[key]);
       }
     });
@@ -64,13 +72,45 @@ function AddProduct(props) {
     for (let pic of images) {
       form.append("productPictures", pic.file);
     }
+    if (productLabels.length > 0) {
+      form.append("labels", JSON.stringify(productLabels.map((x) => x.name)));
+    } else {
+      form.append("labels", JSON.stringify([]));
+    }
+
     for (var pair of form.entries()) {
       console.log(pair[0] + ", " + pair[1]);
     }
     dispatch(addProduct(form)).then(() => {
-      // history.push("/products");
+      history.push("/products");
     });
   };
+
+  const CustomAutocomplete = withStyles({
+    tag: {
+      backgroundColor: "white",
+      height: 24,
+      position: "relative",
+      zIndex: 0,
+      "& .MuiChip-label": {
+        color: "currentColor",
+      },
+      "& .MuiChip-deleteIcon": {
+        color: "white",
+      },
+      "&:after": {
+        content: '""',
+        right: 10,
+        top: 6,
+        height: 12,
+        width: 12,
+        position: "absolute",
+        backgroundColor: "currentColor",
+        zIndex: -1,
+      },
+    },
+  })(Autocomplete);
+
   return (
     <Container>
       <div>
@@ -267,6 +307,54 @@ function AddProduct(props) {
                 />
               </div>
             ))}
+          <div style={{ margin: "20px auto" }}>
+            <Controller
+              render={({ field: { onChange, value } }) => (
+                <CustomAutocomplete
+                  multiple
+                  id="tags-standard"
+                  value={productLabels}
+                  options={labels || []}
+                  getOptionLabel={(option) => option.name}
+                  renderTags={(value, getTagProps) =>
+                    value.map((option, index) => (
+                      <Chip
+                        key={option.name}
+                        variant="outlined"
+                        label={option.name}
+                        style={{
+                          color: option.color,
+                          borderColor: option.color,
+                          borderRadius: 0,
+                          padding: "8px auto",
+                        }}
+                        {...getTagProps({ index })}
+                      />
+                    ))
+                  }
+                  renderInput={(params) => {
+                    return (
+                      <TextField
+                        {...params}
+                        variant="standard"
+                        placeholder="Labels"
+                        style={{
+                          color: "red",
+                        }}
+                      />
+                    );
+                  }}
+                  onChange={(_, data) => {
+                    onChange();
+                    setProductLabels(data);
+                    return data;
+                  }}
+                />
+              )}
+              name={"labels"}
+              control={control}
+            />
+          </div>
           <ImageUploading
             multiple
             value={images}
