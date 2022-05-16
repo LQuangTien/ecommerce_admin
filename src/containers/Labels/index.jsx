@@ -30,12 +30,8 @@ function Labels(props) {
     },
   ];
   const history = useHistory();
-  const dispatch = useDispatch();
   const { labels } = useSelector((state) => state.labels);
   const auth = useSelector((state) => state.auth);
-  useEffect(() => {
-    dispatch(getLabels());
-  }, []);
   const getMuiTheme = () =>
     createMuiTheme({
       overrides: {

@@ -12,13 +12,16 @@ import axios from "../helpers/axios";
 export const getInitialData = (year = new Date().getFullYear()) => {
   return async (dispatch) => {
     dispatch({ type: initialDataConstants.GET_INITIALDATA_REQUEST });
-    const [initRes, notifyRes] = await Promise.all([
+    const [initRes, notifyRes, labelRes] = await Promise.all([
       axios.get(`admin/initialdata?year=${year}`),
       axios.get("product/notify"),
+      axios.get(`/label`),
     ]);
+
     if (initRes.status === 200 && notifyRes.status === 200) {
       const { categories, products, orders, statistic } = initRes.data.data;
       const { notifies } = notifyRes.data.data;
+      const labels = labelRes.data.data;
       dispatch({
         type: categoryConstants.GET_ALL_CATEGORY_SUCCESS,
         payload: { categories },
@@ -40,6 +43,11 @@ export const getInitialData = (year = new Date().getFullYear()) => {
         payload: { notifies },
       });
       dispatch({ type: initialDataConstants.GET_INITIALDATA_SUCCESS });
+
+      dispatch({
+        type: labelConstants.GET_ALL_LABEL_SUCCESS,
+        payload: { labels },
+      });
     }
   };
 };
