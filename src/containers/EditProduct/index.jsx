@@ -63,7 +63,7 @@ function EditProduct(props) {
             return labels.find((l) => l.name === name);
           })
         : [];
-      setProductLabels(labelList);
+      setProductLabels(labelList.filter((x) => !!x));
       const cate = categories.find((cate) => cate.name === product.category);
       setCategory(cate);
       reset({ ...product });
@@ -296,20 +296,22 @@ function EditProduct(props) {
                   options={labels || []}
                   getOptionLabel={(option) => option.name}
                   renderTags={(value, getTagProps) =>
-                    value.map((option, index) => (
-                      <Chip
-                        key={option.name}
-                        variant="outlined"
-                        label={option.name}
-                        style={{
-                          color: option.color,
-                          borderColor: option.color,
-                          borderRadius: 0,
-                          padding: "8px auto",
-                        }}
-                        {...getTagProps({ index })}
-                      />
-                    ))
+                    value.map((option, index) => {
+                      return (
+                        <Chip
+                          key={option.name}
+                          variant="outlined"
+                          label={option.name}
+                          style={{
+                            color: option.color,
+                            borderColor: option.color,
+                            borderRadius: 0,
+                            padding: "8px auto",
+                          }}
+                          {...getTagProps({ index })}
+                        />
+                      );
+                    })
                   }
                   renderInput={(params) => {
                     return (

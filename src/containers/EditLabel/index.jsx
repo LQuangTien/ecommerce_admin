@@ -4,17 +4,20 @@ import React, { useEffect } from "react";
 import { Button, Form, Spinner } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
+
 import {
   getLabelById,
   updateLabel,
   getLabels,
+  deleteLabel,
 } from "../../actions/label.actions";
 import "./style.css";
 
 function EditLabel() {
+  const history = useHistory();
   const { id } = useParams();
-  const { label, updating, loadingDetail } = useSelector(
+  const { label, updating, loadingDetail, deleting } = useSelector(
     (state) => state.labels
   );
 
@@ -39,6 +42,15 @@ function EditLabel() {
   const onSubmit = (data) => {
     dispatch(updateLabel(data)).then(() => {
       dispatch(getLabels());
+    });
+  };
+
+  const handleRemoveLabel = () => {
+    dispatch(deleteLabel(id)).then(() => {
+      dispatch(getLabels());
+      setTimeout(() => {
+        history.push("/labels");
+      }, 0);
     });
   };
 
@@ -77,7 +89,7 @@ function EditLabel() {
           variant="success"
           className="mt-3 mr-2"
           type="submit"
-          disabled={updating}
+          disabled={updating || deleting}
         >
           {updating && (
             <Spinner
@@ -89,6 +101,23 @@ function EditLabel() {
             />
           )}
           Submit
+        </Button>
+        <Button
+          variant="danger"
+          className="mt-3 mr-2"
+          onClick={handleRemoveLabel}
+          disabled={updating || deleting}
+        >
+          {deleting && (
+            <Spinner
+              as="span"
+              animation="border"
+              size="sm"
+              role="status"
+              aria-hidden="true"
+            />
+          )}
+          Delete
         </Button>
       </form>
     </Box>

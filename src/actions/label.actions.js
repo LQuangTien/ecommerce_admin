@@ -37,6 +37,7 @@ export const updateLabel = (data) => {
     }
   };
 };
+
 export const getLabelById = (id) => {
   return async (dispatch) => {
     try {
@@ -74,6 +75,24 @@ export const getLabels = () => {
       dispatch({
         type: labelConstants.GET_ALL_LABEL_FAILURE,
         payload: { error },
+      });
+    }
+  };
+};
+
+export const deleteLabel = (id) => {
+  return async (dispatch) => {
+    dispatch({ type: labelConstants.DELETE_LABEL_REQUEST });
+    const res = await axios.delete(`label/${id}`);
+    if (res.status === 200) {
+      dispatch({
+        type: labelConstants.DELETE_LABEL_SUCCESS,
+        payload: { order: res.data.label },
+      });
+    } else {
+      dispatch({
+        type: labelConstants.DELETE_LABEL_FAILURE,
+        payload: { error: res.data.error },
       });
     }
   };

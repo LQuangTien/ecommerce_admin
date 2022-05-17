@@ -6,6 +6,7 @@ const initState = {
   label: null,
   loadingDetail: false,
   submitting: false,
+  deleting: false,
 };
 
 const labelReducer = (state = initState, action) => {
@@ -73,6 +74,24 @@ const labelReducer = (state = initState, action) => {
       state = {
         ...state,
         submitting: false,
+      };
+      break;
+    case labelConstants.DELETE_LABEL_REQUEST:
+      state = {
+        ...state,
+        deleting: true,
+      };
+      break;
+    case labelConstants.DELETE_LABEL_SUCCESS:
+      state = {
+        ...state,
+        deleting: false,
+      };
+      break;
+    case labelConstants.DELETE_LABEL_FAILURE:
+      state = {
+        ...state,
+        deleting: false,
       };
       break;
     default:
