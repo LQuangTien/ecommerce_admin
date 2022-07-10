@@ -10,7 +10,6 @@ export const updateOrder = (updatedProcess) => {
     if (res.status === 201) {
       dispatch({
         type: orderConstants.UPDATE_ORDER_SUCCESS,
-        payload: { order: res.data.order[0] },
       });
       dispatch(getInitialData());
     } else {

@@ -24,14 +24,12 @@ const orderReducer = (state = initState, action) => {
     case orderConstants.UPDATE_ORDER_SUCCESS:
       state = {
         ...state,
-        order: action.payload.order,
         updating: false,
       };
       break;
     case orderConstants.UPDATE_ORDER_FAILURE:
       state = {
         ...state,
-        orders: [],
         updating: false,
       };
       break;
