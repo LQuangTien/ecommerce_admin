@@ -25,6 +25,7 @@ function AddProduct(props) {
   const dispatch = useDispatch();
   const [category, setCategory] = useState();
   const [images, setImages] = useState([]);
+  const [imagesError, setImagesError] = useState(null);
   const maxNumber = 5;
   const { categories } = useSelector((state) => state.categories);
   const { isAdding } = useSelector((state) => state.products);
@@ -52,6 +53,13 @@ function AddProduct(props) {
       setCateError("Error");
       return;
     }
+    if (images.length === 0) {
+      setImagesError("Error");
+      return;
+    }
+    setCateError(null);
+    setImagesError(null);
+
     const form = new FormData();
     Object.keys(data).forEach((key, index) => {
       if (
@@ -393,6 +401,9 @@ function AddProduct(props) {
                   >
                     Remove all images
                   </Button>
+                  {imagesError && (
+                    <div className="errorMessage">This field is required</div>
+                  )}
                   <div className="product__images-container">
                     {imageList.map((image, index) => (
                       <div key={index}>

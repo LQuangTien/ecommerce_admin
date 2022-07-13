@@ -41,6 +41,7 @@ function EditProduct(props) {
   );
   const auth = useSelector((state) => state.auth);
   const { labels } = useSelector((state) => state.labels);
+  const [imagesError, setImagesError] = useState(null);
 
   const { register, control, handleSubmit, setValue, getValues, reset } =
     useForm();
@@ -82,6 +83,12 @@ function EditProduct(props) {
   });
 
   const onSubmit = (data) => {
+    if (images.length === 0 && product.productPictures.length === 0) {
+      setImagesError("Error");
+      return;
+    }
+    setImagesError(null);
+
     const form = new FormData();
     Object.keys(data).forEach((key, index) => {
       if (
@@ -109,6 +116,10 @@ function EditProduct(props) {
     if (isReplace) {
       for (let pic of images) {
         form.append("productPictures", pic.file);
+      }
+    } else {
+      for (let pic of product.productPictures) {
+        form.append("productPictures", pic);
       }
     }
     for (var pair of form.entries()) {
@@ -347,6 +358,9 @@ function EditProduct(props) {
               >
                 Toggle replace
               </Button>
+            )}
+            {imagesError && (
+              <div className="errorMessage">This field is required</div>
             )}
             <div className="product__images">
               <div className="product__images-container">

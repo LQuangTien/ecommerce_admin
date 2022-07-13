@@ -19,6 +19,10 @@ function Header() {
     history.push("/signin");
   };
 
+  const handleChangePassword = () => {
+    history.push("/change-password");
+  };
+
   const onNotifyClick = (notifyId) => {
     dispatch(readNotify(notifyId));
   };
@@ -32,6 +36,15 @@ function Header() {
             </NavLink>
           </li>
         )}
+        <li className="nav-item">
+          <span
+            role="button"
+            className="nav-link"
+            onClick={handleChangePassword}
+          >
+            Change Password
+          </span>
+        </li>
         <li className="nav-item">
           <span role="button" className="nav-link" onClick={handleSignout}>
             Sign out

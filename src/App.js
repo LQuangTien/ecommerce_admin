@@ -22,6 +22,7 @@ import { notifyConstants } from "./actions/constants";
 import Labels from "./containers/Labels";
 import EditLabel from "./containers/EditLabel";
 import AddLabel from "./containers/AddLabel";
+import ChangePassword from "./containers/ChangePassword";
 
 let socket;
 
@@ -87,6 +88,11 @@ function App() {
           <PrivateRoute exact path="/label/edit/:id" component={EditLabel} />
 
           <PrivateRoute exact path="/product/:id" component={EditProduct} />
+          <PrivateRoute
+            exact
+            path="/change-password"
+            component={ChangePassword}
+          />
 
           {auth && auth.user.role === "admin" && (
             <PrivateRoute path="/signup" component={Signup} />
