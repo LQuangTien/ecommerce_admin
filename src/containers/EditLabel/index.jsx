@@ -20,6 +20,7 @@ function EditLabel() {
   const { label, updating, loadingDetail, deleting } = useSelector(
     (state) => state.labels
   );
+  const auth = useSelector((state) => state.auth);
 
   const {
     reset,
@@ -102,23 +103,25 @@ function EditLabel() {
           )}
           Submit
         </Button>
-        <Button
-          variant="danger"
-          className="mt-3 mr-2"
-          onClick={handleRemoveLabel}
-          disabled={updating || deleting}
-        >
-          {deleting && (
-            <Spinner
-              as="span"
-              animation="border"
-              size="sm"
-              role="status"
-              aria-hidden="true"
-            />
-          )}
-          Delete
-        </Button>
+        {auth && auth.user.role === "admin" && (
+          <Button
+            variant="danger"
+            className="mt-3 mr-2"
+            onClick={handleRemoveLabel}
+            disabled={updating || deleting}
+          >
+            {deleting && (
+              <Spinner
+                as="span"
+                animation="border"
+                size="sm"
+                role="status"
+                aria-hidden="true"
+              />
+            )}
+            Delete
+          </Button>
+        )}
       </form>
     </Box>
   );
