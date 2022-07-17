@@ -479,7 +479,7 @@ function EditProduct(props) {
                         aria-hidden="true"
                       />
                     )}
-                    Delete product
+                    Disable product
                   </Button>
                 )}
               </>
