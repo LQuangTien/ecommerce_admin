@@ -67,7 +67,33 @@ function EditProduct(props) {
       setProductLabels(labelList.filter((x) => !!x));
       const cate = categories.find((cate) => cate.name === product.category);
       setCategory(cate);
-      reset({ ...product });
+
+      const initFilterFields = cate.filterField.map((f) => ({
+        name: f.name,
+        value: null,
+      }));
+      const initNormalFields = cate.normalField.map((f) => ({
+        name: f.name,
+        value: null,
+      }));
+      const initCateFields = [...initFilterFields, ...initNormalFields].map(
+        (f) => {
+          const field = product.categoryInfo.find((x) => x.name === f.name);
+          if (field) {
+            return {
+              name: field.name,
+              value: field.value,
+            };
+          } else {
+            return {
+              name: f.name,
+              value: null,
+            };
+          }
+        }
+      );
+
+      reset({ ...product, categoryInfo: initCateFields });
     }
   }, [reset, categories, product, labels]);
 
